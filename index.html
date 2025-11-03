@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tiendita Colombiana</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <style>
+        body { background: linear-gradient(to bottom, #FFF8E7, #FFD700); color: #003087; font-family: 'Arial Black', Arial; margin: 0; }
+        .navbar { background: #003087 !important; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        footer { background: #FFD700 !important; padding: 30px; text-align: center; }
+        
+        /* CARTAS DE PRODUCTO - ¡AHORA BRILLAN! */
+        .producto-card { 
+            border: 4px solid #003087; 
+            border-radius: 25px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(0,48,135,0.4); 
+            transition: all 0.4s ease; 
+            background: white;
+        }
+        .producto-card:hover { 
+            transform: translateY(-15px) scale(1.03); 
+            box-shadow: 0 25px 50px rgba(206,17,38,0.5); 
+        }
+        .producto-img { 
+            height: 280px; 
+            object-fit: cover; 
+            transition: transform 0.4s ease; 
+            border-bottom: 5px solid #FFD700;
+        }
+        .producto-card:hover .producto-img { 
+            transform: scale(1.1); 
+        }
+        .precio { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: #CE1126; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2); 
+        }
+        .btn-agregar { 
+            margin-top: auto !important;
+            background: #FFD700 !important; 
+            color: #003087 !important; 
+            border: none; 
+            border-radius: 50px; 
+            padding: 15px 30px; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            transition: all 0.3s; 
+        }
+        .btn-agregar:hover { 
+            background: #CE1126 !important; 
+            color: white !important; 
+            transform: translateY(-3px); 
+        }
+        
+        /* INPUT CANTIDAD */
+        .cantidad-input { 
+            max-width: 180px; 
+            margin: 20px auto; 
+            border: 2px solid #003087; 
+            border-radius: 50px; 
+            overflow: hidden; 
+        }
+        .cantidad-input .form-control { 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 1.3rem; 
+            border: none; 
+        }
+        
+        /* HOME */
+        .hero-img { 
+            max-height: 500px; 
+            border-radius: 40px; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4); 
+            border: 8px solid #FFD700; 
+        }
+        .section-title { 
+            font-size: 3.5rem; 
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3); 
+            color: #003087; 
+        }
+        .info-card { 
+            border-radius: 30px; 
+            padding: 30px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); 
+        }
+    </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center" href="#/">
+                        <img src="navbar.png" alt="Logo" width="70" class="me-3">
+                        <strong class="fs-3">Tiendita Colombiana</strong>
+                    </a>
+                    <ul class="navbar-nav ms-auto fs-5">
+                        <li><a class="nav-link px-4" href="#/">🏠
+                                Inicio</a></li>
+                        <li><a class="nav-link px-4" href="#/catalogo">🛒
+                                Catálogo</a></li>
+                        <li><a class="nav-link px-4" href="#/pagos">🛍️ Carrito
+                                ({{ carrito.length }})</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Contenido -->
+            <div class="container my-5 min-vh-100">
+                <!-- HOME -->
+                <section v-if="vista === 'home'" class="text-center">
+                    <img src="logo.png" alt="Colombia en tu hogar"
+                        class="img-fluid hero-img mb-5">
+                    <h1 class="section-title mb-5">¿Quiénes Somos?</h1>
+                    <div class="row justify-content-center g-5">
+                        <div class="col-11 col-md-9 col-lg-7">
+                            <div class="info-card bg-light">
+                                <h3 class="text-primary mb-4">🇨🇴 ¿Quiénes
+                                    Somos?</h3>
+                                <p class="fs-4">Tiendita 100% colombiana que
+                                    lleva <strong>café recién molido</strong>,
+                                    <strong>banano dulce</strong> y
+                                    <strong>dulces tradicionales</strong>
+                                    directo de nuestra tierra a tu puerta. ¡Con
+                                    amor desde Colombia! ☕🍌</p>
+                            </div>
+                        </div>
+                        <div class="col-11 col-md-9 col-lg-7">
+                            <div class="info-card bg-warning text-dark">
+                                <h3 class="mb-4">🎯 Misión</h3>
+                                <p class="fs-4">Llevar la <strong>alegría
+                                        colombiana</strong> a cada rincón del
+                                    mundo con productos <strong>auténticos,
+                                        frescos y de calidad</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="col-11 col-md-9 col-lg-7">
+                            <div class="info-card bg-light">
+                                <h3 class="mb-4">🌟 Visión</h3>
+                                <p class="fs-4">Ser la <strong>tiendita
+                                        #1</strong> para colombianos en el
+                                    exterior. ¡En 2030, en todos los
+                                    continentes!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CATÁLOGO -->
+                <section v-if="vista === 'catalogo'">
+                    <h1 class="text-center mb-5 section-title">🛍️ Catálogo (15
+                        Productos)</h1>
+                    <div class="row row-cols-1 row-cols-md-3 g-5">
+                        <div class="col" v-for="p in productos" :key="p.id">
+                            <div class="producto-card h-100">
+                                <img :src="p.imagen" alt="p.nombre"
+                                    class="producto-img w-100">
+                                <div class="card-body d-flex flex-column p-4">
+                                    <h5
+                                        class="card-title text-center fs-3 fw-bold">{{
+                                        p.nombre }}</h5>
+                                    <p class="text-center text-muted fs-5">{{
+                                        p.descripcion }}</p>
+                                    <p class="precio text-center my-3">$ {{
+                                        p.precio.toLocaleString('es-ES') }}</p>
+
+                                    <div class="cantidad-input">
+                                        <div class="input-group">
+                                            <button
+                                                class="btn btn-outline-primary"
+                                                @click="disminuir(p)">-</button>
+                                            <input type="number"
+                                                class="form-control text-center"
+                                                v-model.number="p.cantidad"
+                                                min="1"
+                                                aria-label="Cantidad de producto">
+                                            <!-- <input type="number" class="form-control" v-model.number="p.cantidad" min="1"> -->
+                                            <button
+                                                class="btn btn-outline-primary"
+                                                @click="aumentar(p)">+</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-agregar"
+                                        @click="agregarAlCarrito(p)">
+                                        🛒 Agregar al Carrito
+                                    </button>
+                                    <!-- <button class="btn-agregar mt-4"
+                                        @click="agregarAlCarrito(p)">
+                                        🛒 Agregar al Carrito
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGOS -->
+                <section v-if="vista === 'pagos'">
+                    <div v-if="carrito.length === 0" class="text-center py-5">
+                        <h2 class="display-4">😔 Carrito vacío</h2>
+                        <button @click="vista = 'catalogo'"
+                            class="btn btn-primary btn-lg px-5 py-3">🛒 Ir a
+                            Comprar</button>
+                    </div>
+                    <div v-else>
+                        <h1 class="text-center mb-5 section-title">📄 Tu
+                            Factura</h1>
+                        <div class="card shadow-lg border-0">
+                            <div class="card-body p-5">
+                                <table class="table table-hover">
+                                    <thead class="table-warning">
+                                        <tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Total</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="g in agrupado" :key="g.id">
+                                            <td><strong>{{ g.nombre
+                                                    }}</strong></td>
+                                            <td><span
+                                                    class="badge bg-success fs-5">{{
+                                                    g.cantidad }}</span></td>
+                                            <td>$ {{
+                                                g.precio.toLocaleString('es-CO')
+                                                }}</td>
+                                            <td
+                                                class="text-danger fw-bold fs-4">$
+                                                {{ (g.precio *
+                                                g.cantidad).toLocaleString('es-CO')
+                                                }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr class="my-4">
+                                <div class="text-end">
+                                    <h4>Subtotal: <strong>$ {{
+                                            subtotal.toLocaleString('es-CO')
+                                            }}</strong></h4>
+                                    <h4>IVA 19%: <strong>$ {{
+                                            iva.toLocaleString('es-CO')
+                                            }}</strong></h4>
+                                    <h2 class="text-primary">Total: <strong>$ {{
+                                            total.toLocaleString('es-CO')
+                                            }}</strong></h2>
+                                </div>
+                                <button
+                                    class="btn btn-success btn-lg w-100 mt-4 py-3 fs-3"
+                                    @click="pagar()">
+                                    💳 PAGAR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer class="text-dark">
+                <img src="navbar.png" alt="Logo" width="80">
+                <p class="fs-4 mt-3"><strong>Tiendita Colombiana ©
+                        2025</strong></p>
+            </footer>
+        </div>
+
+        <!-- Vue 3 -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script>
+        const { createApp, ref, computed } = Vue;
+
+        createApp({
+            setup() {
+                const vista = ref('home');
+                const productos = ref([
+                    { id: 1, nombre: 'Chocolate Chucureño', precio: 7.99, imagen: 'assets/producto1.png', descripcion: '500g', cantidad: 1 },
+                    { id: 2, nombre: 'Cocadas x 6 uds.', precio: 10.99, imagen: 'assets/producto2.png', descripcion: '138g', cantidad: 1 },
+                    { id: 3, nombre: 'Bocadillo Relleno', precio: 11.99, imagen: 'assets/producto3.jpg', descripcion: '180g', cantidad: 1 },
+                    { id: 4, nombre: 'Choclitos Frito Lay Bolsaza Limón', precio: 15000, imagen: 'assets/producto4.png', descripcion: '125g', cantidad: 1 },
+                    { id: 5, nombre: 'Ponqué Chocorramo Chocolate', precio: 12000, imagen: 'assets/producto5.png', descripcion: '65g', cantidad: 1 },
+                    { id: 6, nombre: 'Papas Margarita Pollo', precio: 6.99, imagen: 'assets/producto6.png', descripcion: '105g', cantidad: 1 },
+                    { id: 7, nombre: 'Gasesosa Colombiana', precio: 5.50, imagen: 'assets/producto7.png', descripcion: '269ml', cantidad: 1 },
+                    { id: 8, nombre: 'Gasesosa Manzana Postobón', precio: 5.50, imagen: 'assets/producto8.jpg', descripcion: '269ml', cantidad: 1 },
+                    { id: 9, nombre: 'Harina Pan Maíz Blanco', precio: 8.99, imagen: 'assets/producto9.jpg', descripcion: '500g', cantidad: 1 },
+                    { id: 10, nombre: 'Panela Del Fonce Cuadrada Natural', precio: 8.50, imagen: 'assets/producto10.jpg', descripcion: '750g', cantidad: 1 },
+                    { id: 11, nombre: 'Pandebono Mezcla en Polvo', precio: 13.00, imagen: 'assets/producto11.jpg', descripcion: '300g', cantidad: 1 },
+                    { id: 12, nombre: 'Ponque Ramo Tradicional', precio: 10.99, imagen: 'assets/producto12.jpg', descripcion: '230g', cantidad: 1 },
+                    { id: 13, nombre: 'Arequipe Alpina', precio: 9.99, imagen: 'assets/producto13.jpg', descripcion: '220g', cantidad: 1 },
+                    { id: 14, nombre: 'Obleas con Arequipe kit', precio: 12.99, imagen: 'assets/producto14.jpg', descripcion: '10uds', cantidad: 1 },
+                    { id: 15, nombre: 'Maxi Bolso Wayuu Beige/Vinotinto', precio: 200.99, imagen: 'assets/producto15.png', descripcion: '', cantidad: 1 },
+                ]);
+
+                const carrito = ref(JSON.parse(localStorage.getItem('carrito') || '[]'));
+
+                const updateVista = () => {
+                    const hash = window.location.hash.slice(2) || 'home';
+                    vista.value = hash;
+                };
+                window.addEventListener('hashchange', updateVista);
+                updateVista();
+
+                const disminuir = (p) => p.cantidad = Math.max(1, p.cantidad - 1);
+                const aumentar = (p) => p.cantidad++;
+                const agregarAlCarrito = (p) => {
+                    for (let i = 0; i < p.cantidad; i++) {
+                        carrito.value.push({ ...p });
+                    }
+                    localStorage.setItem('carrito', JSON.stringify(carrito.value));
+                    alert(`¡${p.nombre} x${p.cantidad} agregado! 🎉`);
+                    p.cantidad = 1;
+                };
+
+                const agrupado = computed(() => {
+                    const map = {};
+                    carrito.value.forEach(item => {
+                        if (!map[item.id]) map[item.id] = { ...item, cantidad: 0 };
+                        map[item.id].cantidad++;
+                    });
+                    return Object.values(map);
+                });
+
+                const subtotal = computed(() => carrito.value.reduce((t, i) => t + i.precio, 0));
+                const iva = computed(() => Math.round(subtotal.value * 0.19));
+                const total = computed(() => subtotal.value + iva.value);
+
+                const pagar = () => {
+                    alert(`¡PAGO EXITOSO por $${total.value.toLocaleString('es-CO')}! 🎊\nTu pedido llega en 2 días 🚚\n¡Gracias por comprar colombiano! 🇨🇴`);
+                    carrito.value = [];
+                    localStorage.removeItem('carrito');
+                    vista.value = 'home';
+                    window.location.hash = '#/';
+                };
+
+                return { vista, productos, carrito, disminuir, aumentar, agregarAlCarrito, agrupado, subtotal, iva, total, pagar };
+            }
+        }).mount('#app');
+    </script>
+    </body>
+</html>
